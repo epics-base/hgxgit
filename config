@@ -4,7 +4,7 @@ HGBASE=http://hg.code.sf.net/p/epics-pvdata
 GITBASE=https://github.com/epics-base
 
 REPOS="pvDataCPP pvAccessCPP pvCommonCPP pvDataJava pvAccessJava"
-REPOS="$REPOS pvaPy easyPVAJava directoryService"
+REPOS="$REPOS pvaPy easyPVAJava easyPVACPP directoryService"
 REPOS="$REPOS exampleCPP exampleJava masarService"
 REPOS="$REPOS normativeTypesCPP pvDataWWW pvIOCJava"
 REPOS="$REPOS pvaSrv swtshellJava bundleJava"

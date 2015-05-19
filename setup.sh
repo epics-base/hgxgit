@@ -33,7 +33,7 @@ case "$1" in
     for RR in $REPOS
     do
         cd "$BASEDIR/repo/$RR"
-        git fetch "$REMOTE"
+        git fetch "$REMOTE" || true
     done
    ;;
  pushgit)
@@ -43,7 +43,7 @@ case "$1" in
         git branch -r|grep '^\s*hg/branches/' | while read br
         do
             barebr="${br#hg/branches/}"
-            git push --tags github $br:refs/heads/$barebr
+            git push --tags github $br:refs/heads/$barebr || true
         done
     done
    ;;
