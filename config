@@ -6,9 +6,9 @@ GITBASE=https://github.com/epics-base
 REPOS="pvDataCPP pvAccessCPP pvCommonCPP pvDataJava pvAccessJava"
 REPOS="$REPOS pvaPy easyPVAJava easyPVACPP directoryService"
 REPOS="$REPOS exampleCPP exampleJava masarService"
-REPOS="$REPOS normativeTypesCPP pvDataWWW"
+REPOS="$REPOS normativeTypesCPP pvDataWWW pvIOCCPP"
 REPOS="$REPOS pvaSrv swtshellJava bundleJava"
-REPOS="$REPOS pvDatabaseJava"
+REPOS="$REPOS pvDatabaseCPP pvDatabaseJava"
 
 # git daemon port (default 9418)
 GITPORT=9419
