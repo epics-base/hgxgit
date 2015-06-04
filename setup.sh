@@ -20,7 +20,7 @@ do
 
     git init "repo/$RR"
     cd "repo/$RR"
-    
+
     git remote add github "$GITBASE/$RR.git"
     git remote add hg "hg::$HGBASE/$RR"
 done
@@ -39,14 +39,18 @@ case "$1" in
  pushgit)
     for RR in $REPOS
     do
+        echo "Push $RR"
         cd "$BASEDIR/repo/$RR"
-        git branch -r|grep '^\s*hg/branches/' | while read br
+        branches=""
+        for br in `git branch -r|grep '^\s*hg/branches/'`
         do
             barebr="${br#hg/branches/}"
-            git push --tags github $br:refs/heads/$barebr || true
+            branches="$branches $br:refs/heads/$barebr"
         done
+        echo "Branches: $branches"
+        git push --tags github $branches || true
     done
    ;;
 
- *) die "Unknown command $1";; 
+ *) die "Unknown command $1";;
 esac
