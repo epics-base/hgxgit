@@ -24,4 +24,4 @@ git fetch 3.14
 git fetch 3.15
 git fetch 3.16
 
-git push --tags github 3.14/master:refs/heads/3.14 3.15/master:refs/heads/3.15 3.16/master:refs/heads/3.16
+git push --tags github +3.14/master:refs/heads/3.14 +3.15/master:refs/heads/3.15 +3.16/master:refs/heads/3.16
