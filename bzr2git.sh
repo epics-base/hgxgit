@@ -6,22 +6,42 @@ die() {
   exit 1
 }
 
-if [ -d bzr2git ]
+srcdir="$PWD"
+
+[ -d bzr2git ] || install -d bzr2git
+cd bzr2git
+
+lockfile -1 -r 5 lockfile || die "timeout waiting for lockfile"
+trap "rm -f lockfile next.time" EXIT TERM INT
+
+git remote|grep "^github$" || git remote add github https://github.com/epics-base/epics-base.git
+
+topush=""
+
+for branch in $(python "$srcdir/list-lp-branches.py" --since last.time next.time epics-base '^~epics-core/epics-base/')
+do
+    name="${branch#~epics-core/epics-base/}"
+    echo "Sync branch $name"
+
+    if ! git remote|grep "^${name}$$"
+    then
+      echo "Add remote lp-$name"
+      git remote add "lp-$name" "bzr::lp:$branch"
+    fi
+
+    git fetch "lp-$name"
+
+    topush="$topush +lp-${name}/master:refs/heads/${name}"
+done
+
+if [ "$topush" ]
 then
-    cd bzr2git
+  echo "Push $topush"
+  # TODO: remove --dry-run
+  git push --dry-run --tags github $topush
+  mv next.time last.time
 else
-    git init bzr2git
-
-    cd bzr2git
-
-    git remote add 3.14 bzr::lp:~epics-core/epics-base/3.14
-    git remote add 3.15 bzr::lp:~epics-core/epics-base/3.15
-    git remote add 3.16 bzr::lp:~epics-core/epics-base/3.16
-    git remote add github https://github.com/epics-base/epics-base.git
+  echo "Nothing to push"
 fi
 
-git fetch 3.14
-git fetch 3.15
-git fetch 3.16
-
-git push --tags github +3.14/master:refs/heads/3.14 +3.15/master:refs/heads/3.15 +3.16/master:refs/heads/3.16
+echo "Done"
